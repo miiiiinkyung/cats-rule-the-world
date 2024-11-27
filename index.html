@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>cats rule the world</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+            background: url('background.png') no-repeat center center fixed;
+            background-size: cover;
+            height: 100vh;
+        }
+
+        .container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+
+        .box {
+            position: absolute;
+            background-color: rgba(0, 0, 0, 0);
+            cursor: pointer;
+        }
+
+        
+        .box1 {top: 60%; left: 55%; width: 500px; height: 500px;}
+        .box2 {top: 5%; left: 75%; width: 450px; height: 280px;}
+        .box3 {top: 10%; left: 60%; width: 180px; height: 200px;}
+        .box4 {top: 32%; left: 51%; width: 100px; height: 100px;}
+        .box5 {top: 25%; left: 75%; width: 200px; height: 200px;}
+        .box6 {top: 42%; left: 75%; width: 250px; height: 150px;}
+        .box7 {top: 50%; left: 61%; width: 150px; height: 200px;}
+        .box8 {top: 60%; left: 67%; width: 150px; height: 200px;}
+        .box9 {top: 2%; left: 23%; width: 150px; height: 400px;}
+        .box10 {top: 2%; left: 43%; width: 180px; height: 400px;}
+        .box11 {top: 65%; left: 55%; width: 200px; height: 250px;}
+        .box12 {top: 27%; left: 66%; width: 170px; height: 140px;}
+        .box13 {top: 35%; left: 22%; width: 100px; height: 400px;}
+        .box14 {top: 20%; left: 10%; width: 110px; height: 250px;}
+        .box15 {top: 85%; left: 20%; width: 170px; height: 170px;}
+        .box16 {top: 65%; left: 43%; width: 70px; height: 80px;}
+        .box17 {top: 63%; left: 40%; width: 80px; height: 80px;}
+        .box18 {top: 40%; left: 32%; width: 500px; height: 300px;}
+        .box19 {top: 7%; left: 31%; width: 160px; height: 50px;}
+        .box20 {top: 9%; left: 35%; width: 150px; height: 40px;}
+        .box21 {top: 40%; left: 30%; width: 100px; height: 150px;}
+        .box22 {top: 15%; left: 35%; width: 100px; height: 250px;}
+        .box23 {top: 85%; left: 13%; width: 200px; height: 100px;}
+        .box24 {top: 70%; left: 68%; width: 200px; height: 200px;}
+        .box25 {top: 20%; left: 10%; width: 110px; height: 250px;}
+        .box26 {top: 20%; left: 15%; width: 100px; height: 100px;}
+        .box27 {top: 30%; left: 15%; width: 150px; height: 100px;}
+        .box28 {top: 40%; left: 7%; width: 200px; height: 200px;}
+        .box29 {top: 45%; left: 15%; width: 200px; height: 100px;}
+
+        .image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            opacity: 0.9;
+            pointer-events: none; /* 클릭 방지 */
+        }
+
+        @keyframes zoomInOut {
+            0% {
+                transform: scale(1);
+                opacity: 0.8;
+            }
+            50% {
+                transform: scale(1.1);
+                opacity: 1;
+            }
+            100% {
+                transform: scale(1);
+                opacity: 1;
+            }
+        }
+
+        .animated-image {
+            animation: zoomInOut 0.5s ease-in-out;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        
+        <div class="box box1" onclick="showImage('carpet')"></div>
+        <div class="box box2" onclick="showImage('paint')"></div>
+        <div class="box box3" onclick="showImage('girl')"></div>
+        <div class="box box4" onclick="showImage('tissue')"></div>
+        <div class="box box5" onclick="showImage('phone')"></div>
+        <div class="box box6" onclick="showImage('pillow')"></div>
+        <div class="box box7" onclick="showImage('trash')"></div>
+        <div class="box box8" onclick="showImage('neck')"></div>
+        <div class="box box9" onclick="showImage('curtain1')"></div>
+        <div class="box box10" onclick="showImage('curtain2')"></div>
+        <div class="box box11" onclick="showImage('small_sofa')"></div>
+        <div class="box box12" onclick="showImage('light')"></div>
+        <div class="box box13" onclick="showImage('long2')"></div>
+        <div class="box box14" onclick="showImage('long')"></div>
+        <div class="box box15" onclick="showImage('bag')"></div>
+        <div class="box box16" onclick="showImage('coffee')"></div>
+        <div class="box box17" onclick="showImage('egg')"></div>
+        <div class="box box18" onclick="showImage('sofa')"></div>
+        <div class="box box19" onclick="showImage('cloud1')"></div>
+        <div class="box box20" onclick="showImage('cloud2')"></div>
+        <div class="box box21" onclick="showImage('doll')"></div>
+        <div class="box box22" onclick="showImage('flower')"></div>
+        <div class="box box23" onclick="showImage('socks')"></div>
+        <div class="box box24" onclick="showImage('hand')"></div>
+        <div class="box box25" onclick="showImage('book1')"></div>
+        <div class="box box26" onclick="showImage('book2')"></div>
+        <div class="box box27" onclick="showImage('book3')"></div>
+        <div class="box box28" onclick="showImage('book4')"></div>
+        <div class="box box29" onclick="showImage('book5')"></div>
+
+        <div id="image" class="image"></div>
+    </div>
+
+    <script>
+        function showImage(imageType) {
+            const imageElement = document.getElementById('image');
+
+            // 이미지 타입에 따른 URL 매핑
+            const imageMap = {
+                carpet: 'carpet.png',
+                paint: 'paint.png',
+                girl: 'girl.png',
+                tissue: 'tissue.png',
+                phone: 'phone.png',
+                pillow: 'pillow.png',
+                trash: 'trash.png',
+                neck: 'neck.png',
+                curtain1: 'curtain1.png',
+                curtain2: 'curtain2.png',
+                small_sofa: 'small sofa.png',
+                light: 'light.png',
+                long2: 'long2.png',
+                long: 'long.png',
+                bag: 'bag.png',
+                coffee: 'coffee.png',
+                egg: 'egg.png',
+                sofa: 'sofa.png',
+                cloud1: 'cloud1.png',
+                cloud2: 'cloud2.png',
+                doll: 'doll.png',
+                flower: 'flower.png',
+                socks: 'socks.png',
+                hand: 'hand.png',
+                book1: 'book1.png',
+                book2: 'book2.png',
+                book3: 'book3.png',
+                book4: 'book4.png',
+                book5: 'book5.png'
+            };
+
+            // 이미지 URL을 가져와서 div 생성
+            if (imageMap[imageType]) {
+                const img = document.createElement('div');
+                img.style.position = 'absolute';
+                img.style.top = '0';
+                img.style.left = '0';
+                img.style.width = '100%';
+                img.style.height = '100%';
+                img.style.backgroundImage = `url('${imageMap[imageType]}')`;
+                img.style.backgroundSize = 'cover';
+
+                // 애니메이션 클래스 추가
+                img.classList.add('animated-image');
+
+                // 기존에 동일 이미지가 추가되지 않도록 검사
+                if (!imageElement.querySelector(`[data-image="${imageType}"]`)) {
+                    img.setAttribute('data-image', imageType);
+                    imageElement.appendChild(img);
+                }
+            }
+
+            imageElement.style.display = 'block'; // 이미지를 보이게 설정
+        }
+    </script>
+</body>
+</html>
+
+
+
