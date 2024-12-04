@@ -25,7 +25,6 @@
             cursor: pointer;
         }
 
-        
         .box1 {top: 60%; left: 55%; width: 500px; height: 500px;}
         .box2 {top: 5%; left: 75%; width: 450px; height: 280px;}
         .box3 {top: 10%; left: 60%; width: 180px; height: 200px;}
@@ -63,7 +62,7 @@
             width: 100%;
             height: 100%;
             opacity: 0.9;
-            pointer-events: none; /* 클릭 방지 */
+            pointer-events: none;
         }
 
         @keyframes zoomInOut {
@@ -84,46 +83,81 @@
         .animated-image {
             animation: zoomInOut 0.5s ease-in-out;
         }
+
+        .counter {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            color: white;
+            font-size: 20px;
+            background: rgba(0, 0, 0, 0.5);
+            padding: 10px;
+            border-radius: 10px;
+        }
     </style>
 </head>
 <body>
     <div class="container">
+        <div class="counter" id="counter">발견한 박스: 0/28</div>
         
-        <div class="box box1" onclick="showImage('carpet')"></div>
-        <div class="box box2" onclick="showImage('paint')"></div>
-        <div class="box box3" onclick="showImage('girl')"></div>
-        <div class="box box4" onclick="showImage('tissue')"></div>
-        <div class="box box5" onclick="showImage('phone')"></div>
-        <div class="box box6" onclick="showImage('pillow')"></div>
-        <div class="box box7" onclick="showImage('trash')"></div>
-        <div class="box box8" onclick="showImage('neck')"></div>
-        <div class="box box9" onclick="showImage('curtain1')"></div>
-        <div class="box box10" onclick="showImage('curtain2')"></div>
-        <div class="box box11" onclick="showImage('small_sofa')"></div>
-        <div class="box box12" onclick="showImage('light')"></div>
-        <div class="box box13" onclick="showImage('long2')"></div>
-        <div class="box box14" onclick="showImage('long')"></div>
-        <div class="box box15" onclick="showImage('bag')"></div>
-        <div class="box box16" onclick="showImage('coffee')"></div>
-        <div class="box box17" onclick="showImage('egg')"></div>
-        <div class="box box18" onclick="showImage('sofa')"></div>
-        <div class="box box19" onclick="showImage('cloud1')"></div>
-        <div class="box box20" onclick="showImage('cloud2')"></div>
-        <div class="box box21" onclick="showImage('doll')"></div>
-        <div class="box box22" onclick="showImage('flower')"></div>
-        <div class="box box23" onclick="showImage('socks')"></div>
-        <div class="box box24" onclick="showImage('hand')"></div>
-        <div class="box box25" onclick="showImage('book1')"></div>
-        <div class="box box26" onclick="showImage('book2')"></div>
-        <div class="box box27" onclick="showImage('book3')"></div>
-        <div class="box box28" onclick="showImage('book4')"></div>
-        <div class="box box29" onclick="showImage('book5')"></div>
+        <div class="box box1" onclick="handleBoxClick('carpet')"></div>
+        <div class="box box2" onclick="handleBoxClick('paint')"></div>
+        <div class="box box3" onclick="handleBoxClick('girl')"></div>
+        <div class="box box4" onclick="handleBoxClick('tissue')"></div>
+        <div class="box box5" onclick="handleBoxClick('phone')"></div>
+        <div class="box box6" onclick="handleBoxClick('pillow')"></div>
+        <div class="box box7" onclick="handleBoxClick('trash')"></div>
+        <div class="box box8" onclick="handleBoxClick('neck')"></div>
+        <div class="box box9" onclick="handleBoxClick('curtain1')"></div>
+        <div class="box box10" onclick="handleBoxClick('curtain2')"></div>
+        <div class="box box11" onclick="handleBoxClick('small_sofa')"></div>
+        <div class="box box12" onclick="handleBoxClick('light')"></div>
+        <div class="box box13" onclick="handleBoxClick('long2')"></div>
+        <div class="box box14" onclick="handleBoxClick('long')"></div>
+        <div class="box box15" onclick="handleBoxClick('bag')"></div>
+        <div class="box box16" onclick="handleBoxClick('coffee')"></div>
+        <div class="box box17" onclick="handleBoxClick('egg')"></div>
+        <div class="box box18" onclick="handleBoxClick('sofa')"></div>
+        <div class="box box19" onclick="handleBoxClick('cloud1')"></div>
+        <div class="box box20" onclick="handleBoxClick('cloud2')"></div>
+        <div class="box box21" onclick="handleBoxClick('doll')"></div>
+        <div class="box box22" onclick="handleBoxClick('flower')"></div>
+        <div class="box box23" onclick="handleBoxClick('socks')"></div>
+        <div class="box box24" onclick="handleBoxClick('hand')"></div>
+        <div class="box box25" onclick="handleBoxClick('book1')"></div>
+        <div class="box box26" onclick="handleBoxClick('book2')"></div>
+        <div class="box box27" onclick="handleBoxClick('book3')"></div>
+        <div class="box box28" onclick="handleBoxClick('book4')"></div>
+        <div class="box box29" onclick="handleBoxClick('book5')"></div>
 
         <div id="image" class="image"></div>
     </div>
 
     <script>
-        function showImage(imageType) {
+        const totalBoxes = 29; // 전체 박스 수
+        let foundCount = 0; // 발견한 박스 수
+        const clickedBoxes = new Set(); // 클릭한 박스를 저장
+
+        const audioFiles = [
+            'cat1.mp3',
+            'cat2.mp3',
+            'cat3.mp3',
+            'cat4.mp3',
+            'cat5.mp3'
+        ];
+
+        function playRandomSound() {
+            const randomIndex = Math.floor(Math.random() * audioFiles.length);
+            const audio = new Audio(audioFiles[randomIndex]);
+            audio.play();
+        }
+
+        function updateCounter() {
+            const counterElement = document.getElementById('counter');
+            counterElement.textContent = `발견한 고양이: ${foundCount}/${totalBoxes}`;
+        }
+
+        function handleBoxClick(imageType) {
             const imageElement = document.getElementById('image');
 
             // 이미지 타입에 따른 URL 매핑
@@ -159,6 +193,9 @@
                 book5: 'book5.png'
             };
 
+            // 박스 클릭 시, 고양이 소리 재생
+            playRandomSound();
+
             // 이미지 URL을 가져와서 div 생성
             if (imageMap[imageType]) {
                 const img = document.createElement('div');
@@ -173,18 +210,27 @@
                 // 애니메이션 클래스 추가
                 img.classList.add('animated-image');
 
+                // 동일한 박스를 중복 클릭하지 않도록 확인
+                if (!clickedBoxes.has(imageType)) {
+                    clickedBoxes.add(imageType);
+                    foundCount++;
+                    updateCounter(); // 카운터 업데이트
+                }
+
                 // 기존에 동일 이미지가 추가되지 않도록 검사
                 if (!imageElement.querySelector(`[data-image="${imageType}"]`)) {
                     img.setAttribute('data-image', imageType);
                     imageElement.appendChild(img);
                 }
             }
-
-            imageElement.style.display = 'block'; // 이미지를 보이게 설정
         }
+
+        // 초기 카운터 표시
+        updateCounter();
     </script>
 </body>
 </html>
+
 
 
 
