@@ -250,8 +250,8 @@
 
                 const trail = document.createElement('div');
                 trail.className = 'mouse-trail';
-                trail.style.left = `${event.pageX - 25}px`; // 마우스 위치 기준 중앙
-                trail.style.top = `${event.pageY - 25}px`;
+                trail.style.left = `${event.pageX + 50}px`; // 마우스 위치 기준 중앙
+                trail.style.top = `${event.pageY + 50}px`;
 
                 document.body.appendChild(trail);
 
