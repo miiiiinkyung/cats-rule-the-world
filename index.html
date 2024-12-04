@@ -11,7 +11,9 @@
             background: url('background.png') no-repeat center center fixed;
             background-size: cover;
             height: 100vh;
+            cursor: url('mouse.png'), auto;
         }
+
 
         .container {
             position: relative;
@@ -94,11 +96,22 @@
             padding: 10px;
             border-radius: 10px;
         }
+
+        .mouse-trail {
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: url('mouse2.png') no-repeat center center;
+            background-size: cover;
+            opacity: 1;
+            pointer-events: none;
+            transition: opacity 0.5s ease-out; /* 페이드아웃 효과 */
+        }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div class="counter" id="counter">발견한 박스: 0/28</div>
+    <div class="container" id="container">
+        <div class="counter" id="counter">발견한 고양이: 0/28</div>
         
         <div class="box box1" onclick="handleBoxClick('carpet')"></div>
         <div class="box box2" onclick="handleBoxClick('paint')"></div>
@@ -134,7 +147,7 @@
     </div>
 
     <script>
-        const totalBoxes = 29; // 전체 박스 수
+        const totalBoxes = 28; // 전체 박스 수
         let foundCount = 0; // 발견한 박스 수
         const clickedBoxes = new Set(); // 클릭한 박스를 저장
 
@@ -154,7 +167,7 @@
 
         function updateCounter() {
             const counterElement = document.getElementById('counter');
-            counterElement.textContent = `발견한 고양이: ${foundCount}/${totalBoxes}`;
+            counterElement.textContent = `발견한 박스: ${foundCount}/${totalBoxes}`;
         }
 
         function handleBoxClick(imageType) {
@@ -225,8 +238,30 @@
             }
         }
 
-        // 초기 카운터 표시
-        updateCounter();
+        
+        let lastTrailTime = 0; // 마지막으로 트레일을 생성한 시간
+
+        document.body.addEventListener('mousemove', (event) => {
+            const now = Date.now();
+            
+            // 200ms마다 트레일 생성
+            if (now - lastTrailTime > 100) {
+                lastTrailTime = now;
+
+                const trail = document.createElement('div');
+                trail.className = 'mouse-trail';
+                trail.style.left = `${event.pageX - 25}px`; // 마우스 위치 기준 중앙
+                trail.style.top = `${event.pageY - 25}px`;
+
+                document.body.appendChild(trail);
+
+                // 0.5초 후 페이드아웃 시작, 1초 후 DOM에서 제거
+                setTimeout(() => {
+                    trail.style.opacity = '0';
+                    setTimeout(() => trail.remove(), 500);
+                }, 500);
+            }
+        });
     </script>
 </body>
 </html>
