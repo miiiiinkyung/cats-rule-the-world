@@ -5,15 +5,49 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>cats rule the world</title>
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            background: url('background.png') no-repeat center center fixed;
-            background-size: cover;
-            height: 100vh;
-            cursor: url('mouse.png'), auto;
-        }
+body {
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+    background: url('background.png') no-repeat center center fixed;
+    background-size: 100vw auto;
+    height: 100vh;
+    cursor: auto;
+}
 
+body.custom-cursor {
+    cursor: url('mouse.png'), auto;
+}
+
+#intro {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: url('door.png') no-repeat center center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    flex-direction: column;
+}
+
+#intro-button {
+    cursor: pointer;
+    width: 200px;
+    position: absolute;
+    top: 60%;
+    left: 50%;
+    transform: translateX(-50%);
+}
+        @font-face {
+    font-family: 'UhBeeSe_hyun';
+    src: url('https://gcore.jsdelivr.net/gh/projectnoonnu/noonfonts_five@.2.0/UhBeeSe_hyun.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 
         .container {
             position: relative;
@@ -67,25 +101,6 @@
             pointer-events: none;
         }
 
-        @keyframes zoomInOut {
-            0% {
-                transform: scale(1);
-                opacity: 0.8;
-            }
-            50% {
-                transform: scale(1.1);
-                opacity: 1;
-            }
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-        .animated-image {
-            animation: zoomInOut 0.5s ease-in-out;
-        }
-
         .counter {
             position: absolute;
             top: 10px;
@@ -97,7 +112,21 @@
             border-radius: 10px;
         }
 
-        .mouse-trail {
+
+        #intro-text {
+    font-family: 'UhBeeSe_hyun', sans-serif;
+    font-size: 32px;
+    color: white;
+    position: absolute;
+    top: 10%;
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 1001;
+    text-align: center;
+    color: black;
+}
+
+                .mouse-trail {
             position: absolute;
             width: 50px;
             height: 50px;
@@ -107,10 +136,16 @@
             pointer-events: none;
             transition: opacity 0.5s ease-out; /* 페이드아웃 효과 */
         }
+
     </style>
 </head>
 <body>
-    <div class="container" id="container">
+    <div class="intro" id="intro">
+        <div id="intro-text">방문을 열어 방에 들어가보세요!</div>
+        <img src="first.png" alt="Start" id="intro-button">
+    </div>
+
+    <div class="container" id="container" style="display: none;">
         <div class="counter" id="counter">발견한 고양이: 0/28</div>
         
         <div class="box box1" onclick="handleBoxClick('carpet')"></div>
@@ -147,8 +182,34 @@
     </div>
 
     <script>
+        const intro = document.getElementById('intro');
+        const introText = document.getElementById('intro-text');
+        const introButton = document.getElementById('intro-button');
+        const container = document.getElementById('container');
+        const body = document.body; 
+       
+
+        introButton.addEventListener('click', () => {
+    // 커서를 custom-cursor.png로 변경
+    body.classList.add('custom-cursor');  // 여기를 introButton 클릭 시에만 추가
+
+    // 인트로 텍스트와 버튼 사라지기
+    introText.style.display = 'none';
+    introButton.style.display = 'none';
+
+    // door.gif 재생 설정
+    intro.style.backgroundImage = "url('door.gif')";
+
+    // door.gif의 재생 시간이 끝난 후 메인 컨텐츠 표시
+    setTimeout(() => {
+        intro.style.display = 'none';
+        container.style.display = 'block';
+    }, 2000); // door.gif의 재생 시간에 맞게 조정
+});
+
+        // 카운터 업데이트 함수
+        let foundCount = 0;
         const totalBoxes = 28; // 전체 박스 수
-        let foundCount = 0; // 발견한 박스 수
         const clickedBoxes = new Set(); // 클릭한 박스를 저장
 
         const audioFiles = [
@@ -165,10 +226,11 @@
             audio.play();
         }
 
-        function updateCounter() {
-            const counterElement = document.getElementById('counter');
-            counterElement.textContent = `발견한 박스: ${foundCount}/${totalBoxes}`;
-        }
+        const counterElement = document.getElementById('counter');
+
+function updateCounter() {
+    counterElement.textContent = `발견한 고양이: ${foundCount}/${totalBoxes}`;
+}
 
         function handleBoxClick(imageType) {
             const imageElement = document.getElementById('image');
@@ -245,13 +307,13 @@
             const now = Date.now();
             
             // 200ms마다 트레일 생성
-            if (now - lastTrailTime > 100) {
+            if (now - lastTrailTime > 200) {
                 lastTrailTime = now;
 
                 const trail = document.createElement('div');
                 trail.className = 'mouse-trail';
-                trail.style.left = `${event.pageX + 50}px`; // 마우스 위치 기준 중앙
-                trail.style.top = `${event.pageY + 50}px`;
+                trail.style.left = `${event.pageX + 100}px`; // 마우스 위치 기준 중앙
+                trail.style.top = `${event.pageY + 100}px`;
 
                 document.body.appendChild(trail);
 
