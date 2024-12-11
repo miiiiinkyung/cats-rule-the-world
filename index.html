@@ -180,6 +180,20 @@ body.custom-cursor {
     padding: 20px; /* 텍스트 주변 여백을 추가하여 가독성 높임 */
     border-radius: 10px; /* 둥근 모서리 추가 */
 }
+.final-message-box {
+    position: absolute;
+    top: 15%;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80%;
+    height: 400px;
+    background-color: white;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+    stroke: 1px;
+    z-index: 1000;
+}
+
 
     </style>
 </head>
@@ -197,6 +211,8 @@ body.custom-cursor {
         </div>
         <div id="message1" class="final-message" style="display: none;">
             반갑습니다. 저는 고양이 왕국의 왕입니다.
+        </div>
+        <div id="messagebox" class="final-message-box" style="display: none;">
         </div>
         <div id="message2" class="final-message" style="display: none;">
             당신의 방을 고양이 왕국으로 양보해주셔서 감사합니다.
@@ -298,11 +314,14 @@ function showCrownAndMessages() {
     // 왕관 이미지 표시 및 애니메이션 적용
     crownElement.style.display = 'block';
     crownElement.style.position = 'absolute';
+    crownElement.style.top = '-5%'
+    crownElement.style.left = '-6%'
     
 
     // 메시지 표시 (5초 간격)
     setTimeout(() => {
         message1.style.display = 'block';
+        messagebox.style.display = 'block';
         message1.style.position = 'absolute';
         message1.style.top = '20%';
         message1.style.left = '50%';
@@ -401,6 +420,7 @@ function handleBoxClick(imageType) {
     </script>
 </body>
 </html>
+
 
 
 
