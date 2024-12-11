@@ -39,7 +39,7 @@ body.custom-cursor {
     width: 200px;
     position: absolute;
     top: 60%;
-    left: 51.5%;
+    left: 50%;
     transform: translateX(-50%);
 }
         @font-face {
@@ -136,7 +136,7 @@ body.custom-cursor {
             pointer-events: none;
             transition: opacity 0.5s ease-out; /* 페이드아웃 효과 */
         }
-            .image {
+                .image {
             position: absolute;
             top: 0;
             left: 0;
@@ -164,7 +164,23 @@ body.custom-cursor {
         .animated-image {
             animation: zoomInOut 0.5s ease-in-out;
         }
-        
+        .crown img {
+            z-index: 1002;
+    
+}
+
+.final-message {
+    position: absolute;
+    font-family: 'UhBeeSe_hyun', sans-serif;
+    font-size: 32px;
+    color: black; /* 텍스트 색을 검정으로 변경 */
+    background: white; /* 배경색을 흰색으로 변경 */
+    text-align: center;
+    z-index: 1001;
+    padding: 20px; /* 텍스트 주변 여백을 추가하여 가독성 높임 */
+    border-radius: 10px; /* 둥근 모서리 추가 */
+}
+
     </style>
 </head>
 <body>
@@ -175,6 +191,16 @@ body.custom-cursor {
 
     <div class="container" id="container" style="display: none;">
         <div class="counter" id="counter">발견한 고양이: 0/28</div>
+        <!-- 왕관 이미지와 메시지 요소 추가 -->
+        <div id="crown" class="crown" style="display: none;">
+            <img src="crown.png" alt="Crown" id="crown-image">
+        </div>
+        <div id="message1" class="final-message" style="display: none;">
+            반갑습니다. 저는 고양이 왕국의 왕입니다.
+        </div>
+        <div id="message2" class="final-message" style="display: none;">
+            당신의 방을 고양이 왕국으로 양보해주셔서 감사합니다.
+        </div>
         
         <div class="box box1" onclick="handleBoxClick('carpet')"></div>
         <div class="box box2" onclick="handleBoxClick('paint')"></div>
@@ -215,7 +241,13 @@ body.custom-cursor {
         const introButton = document.getElementById('intro-button');
         const container = document.getElementById('container');
         const body = document.body; 
+
+        const crownElement = document.getElementById('crown');
+        const crownImage = document.getElementById('crown-image');
+        const message1 = document.getElementById('message1');
+        const message2 = document.getElementById('message2');
        
+
 
         introButton.addEventListener('click', () => {
     // 커서를 custom-cursor.png로 변경
@@ -256,105 +288,122 @@ body.custom-cursor {
 
         const counterElement = document.getElementById('counter');
 
+// 카운터 업데이트 함수
 function updateCounter() {
     counterElement.textContent = `발견한 고양이: ${foundCount}/${totalBoxes}`;
 }
 
-        function handleBoxClick(imageType) {
-            const imageElement = document.getElementById('image');
+// 왕관과 메시지 표시 함수
+function showCrownAndMessages() {
+    // 왕관 이미지 표시 및 애니메이션 적용
+    crownElement.style.display = 'block';
+    crownElement.style.position = 'absolute';
+    crownElement.style.top = '-5%'
+    crownElement.style.left = '-6%'
+    
 
-            // 이미지 타입에 따른 URL 매핑
-            const imageMap = {
-                carpet: 'carpet.png',
-                paint: 'paint.png',
-                girl: 'girl.png',
-                tissue: 'tissue.png',
-                phone: 'phone.png',
-                pillow: 'pillow.png',
-                trash: 'trash.png',
-                neck: 'neck.png',
-                curtain1: 'curtain1.png',
-                curtain2: 'curtain2.png',
-                small_sofa: 'small sofa.png',
-                light: 'light.png',
-                long2: 'long2.png',
-                long: 'long.png',
-                bag: 'bag.png',
-                coffee: 'coffee.png',
-                egg: 'egg.png',
-                sofa: 'sofa.png',
-                cloud1: 'cloud1.png',
-                cloud2: 'cloud2.png',
-                doll: 'doll.png',
-                flower: 'flower.png',
-                socks: 'socks.png',
-                hand: 'hand.png',
-                book1: 'book1.png',
-                book2: 'book2.png',
-                book3: 'book3.png',
-                book4: 'book4.png',
-                book5: 'book5.png'
-            };
+    // 메시지 표시 (5초 간격)
+    setTimeout(() => {
+        message1.style.display = 'block';
+        message1.style.position = 'absolute';
+        message1.style.top = '20%';
+        message1.style.left = '50%';
+        message1.style.transform = 'translateX(-50%)';
+        message1.style.fontFamily = "'UhBeeSe_hyun', sans-serif";
+        message1.style.fontSize = '32px';
+        message1.style.zIndex = '1001';
+    }, 3000);
 
-            // 박스 클릭 시, 고양이 소리 재생
-            playRandomSound();
+    setTimeout(() => {
+        message2.style.display = 'block';
+        message2.style.position = 'absolute';
+        message2.style.top = '28%';
+        message2.style.left = '50%';
+        message2.style.transform = 'translateX(-50%)';
+        message2.style.fontFamily = "'UhBeeSe_hyun', sans-serif";
+        message2.style.fontSize = '32px';
+        message2.style.zIndex = '1001';
+    }, 5000);
+}
 
-            // 이미지 URL을 가져와서 div 생성
-            if (imageMap[imageType]) {
-                const img = document.createElement('div');
-                img.style.position = 'absolute';
-                img.style.top = '0';
-                img.style.left = '0';
-                img.style.width = '100%';
-                img.style.height = '100%';
-                img.style.backgroundImage = `url('${imageMap[imageType]}')`;
-                img.style.backgroundSize = 'cover';
+// 박스 클릭 시 호출되는 함수
+function handleBoxClick(imageType) {
+    const imageElement = document.getElementById('image');
 
-                // 애니메이션 클래스 추가
-                img.classList.add('animated-image');
+    // 이미지 타입에 따른 URL 매핑
+    const imageMap = {
+        carpet: 'carpet.png',
+        paint: 'paint.png',
+        girl: 'girl.png',
+        tissue: 'tissue.png',
+        phone: 'phone.png',
+        pillow: 'pillow.png',
+        trash: 'trash.png',
+        neck: 'neck.png',
+        curtain1: 'curtain1.png',
+        curtain2: 'curtain2.png',
+        small_sofa: 'small sofa.png',
+        light: 'light.png',
+        long2: 'long2.png',
+        long: 'long.png',
+        bag: 'bag.png',
+        coffee: 'coffee.png',
+        egg: 'egg.png',
+        sofa: 'sofa.png',
+        cloud1: 'cloud1.png',
+        cloud2: 'cloud2.png',
+        doll: 'doll.png',
+        flower: 'flower.png',
+        socks: 'socks.png',
+        hand: 'hand.png',
+        book1: 'book1.png',
+        book2: 'book2.png',
+        book3: 'book3.png',
+        book4: 'book4.png',
+        book5: 'book5.png'
+    };
 
-                // 동일한 박스를 중복 클릭하지 않도록 확인
-                if (!clickedBoxes.has(imageType)) {
-                    clickedBoxes.add(imageType);
-                    foundCount++;
-                    updateCounter(); // 카운터 업데이트
-                }
+    // 고양이 소리 재생
+    playRandomSound();
 
-                // 기존에 동일 이미지가 추가되지 않도록 검사
-                if (!imageElement.querySelector(`[data-image="${imageType}"]`)) {
-                    img.setAttribute('data-image', imageType);
-                    imageElement.appendChild(img);
-                }
+    // 이미지 URL을 가져와서 div 생성
+    if (imageMap[imageType]) {
+        const img = document.createElement('div');
+        img.style.position = 'absolute';
+        img.style.top = '0';
+        img.style.left = '0';
+        img.style.width = '100%';
+        img.style.height = '100%';
+        img.style.backgroundImage = `url('${imageMap[imageType]}')`;
+        img.style.backgroundSize = 'cover';
+
+        // 애니메이션 클래스 추가
+        img.classList.add('animated-image');
+
+        // 동일한 박스를 중복 클릭하지 않도록 확인
+        if (!clickedBoxes.has(imageType)) {
+            clickedBoxes.add(imageType);
+            foundCount++;
+            updateCounter(); // 카운터 업데이트
+
+            // 모든 고양이를 찾았을 때 왕관과 메시지 표시
+            if (foundCount === totalBoxes) {
+                showCrownAndMessages();
             }
         }
 
-        
-        let lastTrailTime = 0; // 마지막으로 트레일을 생성한 시간
-
-        document.body.addEventListener('mousemove', (event) => {
-            const now = Date.now();
-            
-            // 200ms마다 트레일 생성
-            if (now - lastTrailTime > 200) {
-                lastTrailTime = now;
-
-                const trail = document.createElement('div');
-                trail.className = 'mouse-trail';
-                trail.style.left = `${event.pageX + 100}px`; // 마우스 위치 기준 중앙
-                trail.style.top = `${event.pageY + 100}px`;
-
-                document.body.appendChild(trail);
-
-                // 0.5초 후 페이드아웃 시작, 1초 후 DOM에서 제거
-                setTimeout(() => {
-                    trail.style.opacity = '0';
-                    setTimeout(() => trail.remove(), 500);
-                }, 500);
-            }
-        });
+        // 동일한 이미지가 추가되지 않도록 검사
+        if (!imageElement.querySelector(`[data-image="${imageType}"]`)) {
+            img.setAttribute('data-image', imageType);
+            imageElement.appendChild(img);
+        }
+    }
+}
+;
     </script>
 </body>
 </html>
+
 
 
 
